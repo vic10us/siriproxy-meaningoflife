@@ -31,7 +31,6 @@ class SiriProxy::Plugin::MeaningOfLife < SiriProxy::Plugin
 
   listen_for /a joke/i do
     url = "http://jokes.tfound.org/jokebot/?format=text"
-    url << URLEscape.escape(text)
     response = ""
     open(url) {
         |f|
