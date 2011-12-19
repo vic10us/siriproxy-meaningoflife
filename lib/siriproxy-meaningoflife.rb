@@ -1,7 +1,7 @@
 require 'cora'
 require 'siri_objects'
 require 'open-uri'
-require 'url_escape'
+require 'json'
 
 #######
 # Remember to add other plugins to the "config.yml" file if you create them!
@@ -30,16 +30,17 @@ class SiriProxy::Plugin::MeaningOfLife < SiriProxy::Plugin
   end
 
   listen_for /a joke/i do
-    url = "http://jokes.tfound.org/jokebot/?format=text"
+    url = "http://jokes.tfound.org/jokebot/?format=json"
     response = ""
     open(url) {
         |f|
         response = f.read
     }
     val = ( not response.eql?("") )
-     
+    j = JSON.parse(response)
+    
     if (val)
-      say response
+      say j.text
     else
       say "Jokes? Jokes? Who needs stinking Jokes?"
     end
