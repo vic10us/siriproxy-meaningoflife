@@ -36,7 +36,7 @@ class SiriProxy::Plugin::MeaningOfLife < SiriProxy::Plugin
         |f|
         response = f.read
     }
-    val = response.eql?("")
+    val = ( not response.eql?("") )
      
     if (val)
       say response
