@@ -40,7 +40,7 @@ class SiriProxy::Plugin::MeaningOfLife < SiriProxy::Plugin
     j = JSON.parse(response)
     
     if (val)
-      say j.text
+      say j['text']
     else
       say "Jokes? Jokes? Who needs stinking Jokes?"
     end
