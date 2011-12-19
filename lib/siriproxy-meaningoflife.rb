@@ -1,7 +1,7 @@
 require 'cora'
 require 'siri_objects'
-require 'uri'
-require 'net/http'
+require 'open-uri'
+require 'url_escape'
 
 #######
 # Remember to add other plugins to the "config.yml" file if you create them!
@@ -31,9 +31,20 @@ class SiriProxy::Plugin::MeaningOfLife < SiriProxy::Plugin
 
   listen_for /a joke/i do
     url = "http://jokes.tfound.org/jokebot/?format=text"
-    r = Net::HTTP.get_reponse( URI.parse( url ) )
-    if r.code == 200
-      say r.body
+    url << URLEscape.escape(text)
+    response = ""
+    open(url) {
+        |f|
+        response = f.read
+     }
+    if( response != "")
+      val = true 
+    else
+      val = false
+    end
+     
+    if (val)
+      say response
     else
       say "Jokes? Jokes? Who needs stinking Jokes?"
     end
@@ -45,6 +56,6 @@ class SiriProxy::Plugin::MeaningOfLife < SiriProxy::Plugin
     rl = rand(lines.count-1)
     say lines[rl]
     request_completed
-  end  
+  end
 
 end
