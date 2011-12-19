@@ -36,12 +36,8 @@ class SiriProxy::Plugin::MeaningOfLife < SiriProxy::Plugin
     open(url) {
         |f|
         response = f.read
-     }
-    if( response != "")
-      val = true 
-    else
-      val = false
-    end
+    }
+    val = s.eql?("")
      
     if (val)
       say response
