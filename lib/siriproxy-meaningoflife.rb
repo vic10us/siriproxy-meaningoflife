@@ -1,5 +1,7 @@
 require 'cora'
 require 'siri_objects'
+require 'uri'
+require 'net/http'
 
 #######
 # Remember to add other plugins to the "config.yml" file if you create them!
@@ -27,6 +29,17 @@ class SiriProxy::Plugin::MeaningOfLife < SiriProxy::Plugin
     
   end
 
+  listen_for /a joke/i do
+    url = "http://jokes.tfound.org/jokebot/?format=text"
+    r = Net::HTTP.get_reponse( URI.parse( url ) )
+    if r.code == 200
+      say r.body
+    else
+      say "Jokes? Jokes? Who needs stinking Jokes?"
+    end
+    request_completed
+  end
+  
   listen_for /meaning of life/i do
     lines = IO.readlines(self.phrase_file)
     rl = rand(lines.count-1)
